@@ -1,6 +1,6 @@
-#include "Area/Area.h"
-#include "Line/Line.h"
-#include "Circle/Circle.h"
+#include "Area.h"
+#include "Line.h"
+#include "Circle.h"
 
 int main() {
     Area drawZone(12, 14);
