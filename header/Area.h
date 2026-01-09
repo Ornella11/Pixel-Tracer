@@ -2,7 +2,7 @@
 # define AREA_H
 # include <vector>
 # include <memory>
-# include "../Shape/Shape.h"
+# include "Shape.h"
 
 class Area {
     private:
