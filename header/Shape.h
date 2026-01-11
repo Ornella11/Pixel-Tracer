@@ -3,7 +3,7 @@
 #define SHAPE_H
 #include <iostream>
 #include <vector>
-#include "Point.h"
+
 // Déclaration anticipée
 class Pixel;
 class Shape {

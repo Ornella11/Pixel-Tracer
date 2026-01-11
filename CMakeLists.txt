@@ -1,10 +1,21 @@
-cmake_minimum_required(VERSION 3.10)
-project(PIXEL-TRACER VERSION 1.0)
+cmake_minimum_required(VERSION 3.15)
+project(PixelTracer)
 
-set(CMAKE_CXX_STANDARD 14)
-set(CMAKE_CXX_STANDARD_REQUIRED True)
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-file(GLOB SOURCES "src/*.cpp")
-add_executable(PIXEL-TRACER ${SOURCES})
+# Inclure tous les cpp
+set(SOURCES
+    src/Main.cpp
+    src/Area.cpp
+    src/Line.cpp
+    src/Point.cpp
+    src/Pixel.cpp
 
-target_include_directories(PIXEL-TRACER PRIVATE header)
+    src/Circle.cpp
+    src/Polygon.cpp
+    src/Shape.cpp
+  
+)
+
+add_executable(PixelTracer ${SOURCES})

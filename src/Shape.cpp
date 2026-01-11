@@ -1,5 +1,5 @@
 // Shape.cpp
-#include "Shape.h"
+#include "../header/Shape.h"
 
 // Initialisation du membre statique
 int Shape::nextId = 1;

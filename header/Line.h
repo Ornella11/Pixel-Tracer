@@ -1,7 +1,10 @@
 // Line.h
 #ifndef LINE_H
 #define LINE_H
+
 #include "Shape.h"
+#include "Point.h"  
+#include <vector>
 
 class Line : 
     public Shape {
