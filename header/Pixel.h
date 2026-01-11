@@ -6,26 +6,26 @@ class Pixel {
         int x;
         int y;
 
-public:
-    // Constructeurs
-    Pixel();
-    Pixel(int px, int py);
-    Pixel(const Pixel& other);
+    public:
+        // Constructeurs
+        Pixel();
+        Pixel(int px, int py);
+        Pixel(const Pixel& other);
 
-    // Destructeur
-    ~Pixel();
+        // Destructeur
+        ~Pixel();
 
-    // Getters
-    int getX() const { return x; }
-    int getY() const { return y; }
+        // Getters
+        int getX() const { return x; }
+        int getY() const { return y; }
 
-    // Setters
-    void setX(int px) { x = px; }
-    void setY(int py) { y = py; }
+        // Setters
+        void setX(int px) { x = px; }
+        void setY(int py) { y = py; }
 
-    // Opérateurs
-    Pixel& operator=(const Pixel& other);
-    bool operator==(const Pixel& other) const;
+        // Opérateurs
+        Pixel& operator=(const Pixel& other);
+        bool operator==(const Pixel& other) const;
 
 };
 

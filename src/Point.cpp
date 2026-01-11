@@ -1,4 +1,6 @@
-# include "Point.h"
+# include "../header/Point.h"
+# include "../header/Pixel.h"
+#include <vector>
 
 Point::Point() : posX(0), posY(0) {}
 
@@ -24,4 +26,10 @@ Point& Point::operator=(const Point& other) {
 }
 bool Point::operator==(const Point& other) const {
     return (posX == other.posX && posY == other.posY);
+}
+
+std::vector<Pixel> Point::toPixels() const {
+    std::vector<Pixel> pixels;
+    pixels.push_back(Pixel(posX, posY));
+    return pixels;
 }

@@ -1,5 +1,7 @@
-# include "Area.h"
-# include <iostream>
+# include "../header/Area.h"
+#include "../header/Shape.h"
+#include "../header/Pixel.h"   // <- ajouté pour type complet
+#include <iostream>
 # include <algorithm>
 
 Area::Area(unsigned int w, unsigned int h)
