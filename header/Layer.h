@@ -12,13 +12,16 @@
 class Layer {
     private:
     std::string name;
-    std::vector<int> id;
-    std::vector<std::string> shapes;
-    std::vector<std::string> visible;
+    int id;
+    static int nextId;
+    std::vector<std::shared_ptr<Shape>> shapes;
+    bool visible;
 
     public:
         // Constructeur
         Layer();
+
+        Layer(const std::string &layerName);
 
         // Destructeur
         ~Layer() = default;
