@@ -1,6 +1,6 @@
 # include "../header/Area.h"
 #include "../header/Shape.h"
-#include "../header/Pixel.h"   // <- ajouté pour type complet
+#include "../header/Pixel.h"   
 #include <iostream>
 # include <algorithm>
 
