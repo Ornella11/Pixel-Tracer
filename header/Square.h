@@ -1,7 +1,8 @@
 // Square.h
 #ifndef SQUARE_H
 #define SQUARE_H
-#include "Shape.h"
+#include "../header/Shape.h"
+#include "../header/Point.h"
 
 class Square : public Shape {
     private:
