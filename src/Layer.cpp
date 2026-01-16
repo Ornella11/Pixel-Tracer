@@ -1,13 +1,14 @@
 // Layer.cpp
-# include "Layer.h"
+# include "../header/Layer.h"
 # include <iostream>
 # include <algorithm>
 
 int Layer::nextId = 1;
 Layer::Layer() : id(nextId++), name("Layer_" + std::to_string(id)),
 visible(true) {}
-Layer::Layer(const std::string& layerName)
-: id(nextId++), name(layerName), visible(true) {}
+Layer::Layer(const std::string& layerName) : 
+id(nextId++), name(layerName), visible(true) {}
+
 void Layer::addShape(std::shared_ptr<Shape> shape) {
 shapes.push_back(shape);
 }
