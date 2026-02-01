@@ -170,7 +170,16 @@ int main() {
             }
         }
         else if (choix == "C" || choix == "c" || choix == "delete") {
+            int id;
             std::cout << "Saisir l'ID de la forme à supprimer : ";
+            if (!(std::cin >> id)) {
+                std::cout << "ID invalide\n";
+                std::cin.clear();
+            }
+            shapes.remove_if([id](const std::shared_ptr<Shape>& s) {
+            return s->getId() == id;
+            std::cout << "Suppression réussi !";
+            });
         }
 
         else if (choix == "D" || choix == "d" || choix == "plot") {
