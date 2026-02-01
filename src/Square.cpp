@@ -3,6 +3,16 @@
 #include "../header/Line.h"
 #include <cmath>
 
+Square::Square(int x, int y, int len)
+    : Shape(), topLeft(x, y), length(len) {}
+
+Square::Square(const Point& tl, int len)
+    : Shape(), topLeft(tl), length(len) {}
+
+void Square::print() const {
+    std::cout << "Square" << topLeft.getPosX() << " " << topLeft.getPosY() << " " << length << std::endl;;
+}
+
 std::vector<Pixel> Square::toPixels() const {
     std::vector<Pixel> pixels;
     int x = topLeft.getPosX();

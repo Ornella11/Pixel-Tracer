@@ -3,6 +3,17 @@
 #include "../header/Line.h"
 #include <cmath>
 
+
+Rectangle::Rectangle(int x, int y, int w, int len)
+    : Shape(), topLeft(x, y), width(w), height(len) {}
+
+Rectangle::Rectangle(const Point& tl, int w, int len)
+    : Shape(), topLeft(tl), width(w), height(len) {}
+
+void Rectangle::print() const {
+    std::cout << "Rectangle " << topLeft.getPosX() << " " << topLeft.getPosY() << " " << width << " " << height << std::endl;;
+}
+
 std::vector<Pixel> Rectangle::toPixels() const {
     std::vector<Pixel> pixels;
     int x = topLeft.getPosX();
