@@ -1,7 +1,8 @@
 // Polygon.h
 #ifndef POLYGON_H
 #define POLYGON_H
-#include "Shape.h"
+#include "../header/Point.h"
+#include "../header/Shape.h"
 #include <vector>
 
 class Polygon : public Shape {

@@ -11,7 +11,7 @@
 //     src/Line.cpp
 //     src/Point.cpp
 //     src/Pixel.cpp
-
+//     src/Square.cpp
 //     src/Circle.cpp
 //     src/Polygon.cpp
 //     src/Shape.cpp

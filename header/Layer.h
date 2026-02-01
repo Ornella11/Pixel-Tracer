@@ -11,8 +11,8 @@
 
 class Layer {
     private:
-    std::string name;
     int id;
+    std::string name;
     static int nextId;
     std::vector<std::shared_ptr<Shape>> shapes;
     bool visible;

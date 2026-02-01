@@ -1,9 +1,16 @@
 #include <iostream>
 #include <string>
+#include <list>
 #include <vector>
 #include "../header/Area.h"
 #include "../header/Line.h"
 #include "../header/Circle.h"
+#include "../header/Point.h"
+#include "../header/Layer.h"
+#include "../header/Square.h"
+#include "../header/Rectangle.h"
+#include "../header/Polygon.h"
+
 
 void afficherMenu() {
     std::cout << "\nVeuillez choisir une action :\n";
@@ -18,25 +25,149 @@ void afficherMenu() {
 
 int main() {
     std::string choix;
+    std::string num;
     bool continuer = true;
+    Area drawZone(20, 20);
+    std::vector<Layer> layers;
+    std::list<std::shared_ptr<Shape>> shapes;
 
     while (continuer) {
         afficherMenu();
         if (!std::getline(std::cin, choix)) break;
 
         if (choix == "A" || choix == "a") {
-            std::cout << "\n--- Sous-menu : Ajouter une forme ---\n";
-            std::cout << "1- Ajouter un point\n";
-            std::cout << "2- Ajouter une ligne\n";
-            std::cout << "3- Ajouter un cercle\n";
-            std::cout << "4- Ajouter un carre\n";
-            std::cout << "5- Ajouter un rectangle\n";
-            std::cout << "6- Ajouter un polygone\n";
-            std::cout << "7- Revenir au menu precedent\n";
-            std::cout << ">> Votre choix : ";
-        } 
+            std::cout << "\n--- Sous-menu : Ajouter une forme ---\n"
+                    << "1- Ajouter un point\n"
+                    << "2- Ajouter une ligne\n"
+                    << "3- Ajouter un cercle\n"
+                    << "4- Ajouter un carre\n"
+                    << "5- Ajouter un rectangle\n"
+                    << "6- Ajouter un polygone\n"
+                    << "7- Revenir au menu precedent\n"
+                    << ">> Votre choix : ";
+
+            std::getline(std::cin, num);
+
+            if (num == "1") {
+                int x1, y1;
+                std::cout << "Saisir x1 y1: ";
+                if (std::cin >> x1 >> y1) {
+                    auto shape = std::make_shared<Point>(x1, y1);
+                    shapes.push_back(shape);     
+                    shape->print();
+                } else {
+                    std::cout << "Entree invalide\n";
+                    std::cin.clear();
+                }
+            }
+            else if (num == "2") {
+                int x1, y1, x2, y2;
+                std::cout << "Saisir le premier point x1 y1: ";
+                if (!(std::cin >> x1 >> y1)) {
+                    std::cout << "Entree invalide\n";
+                    std::cin.clear();
+                    continue;
+                }
+                std::cout << "Saisir le deuxieme point x2 y2: ";
+                if (!(std::cin >> x2 >> y2)) {
+                    std::cout << "Entree invalide\n";
+                    std::cin.clear();
+                    continue;
+                }
+
+                auto shape = std::make_shared<Line>(x1, y1, x2, y2);
+                shapes.push_back(shape);         
+                shape->print();
+
+            }
+            else if (num == "3") {
+                int x1, y1, r;
+                std::cout << "Saisir lepoint centre x1 y1: ";
+                if (!(std::cin >> x1 >> y1)) {
+                    std::cout << "Entree invalide\n";
+                    std::cin.clear();
+                    continue;
+                }
+                std::cout << "Saisir le rayon du cercle: ";
+                if (!(std::cin >> r)) {
+                    std::cout << "Entree invalide\n";
+                    std::cin.clear();
+                    continue;
+                }
+
+                auto shape = std::make_shared<Circle>(x1, y1, r);
+                shapes.push_back(shape);         
+                shape->print();
+
+            }
+             else if (num == "4") {
+                int x1, y1, len;
+                std::cout << "Saisir x1 y1: ";
+                if (!(std::cin >> x1 >> y1)) {
+                    std::cout << "Entree invalide\n";
+                    std::cin.clear();
+                    continue;
+                }
+                std::cout << "Saisir la longueur: ";
+                if (!(std::cin >> len)) {
+                    std::cout << "Entree invalide\n";
+                    std::cin.clear();
+                    continue;
+                }
+
+                auto shape = std::make_shared<Square>(x1, y1, len);
+                shapes.push_back(shape);         
+                shape->print();
+
+            }
+            else if (num == "5") {
+                int x1, y1, len, w;
+                std::cout << "Saisir x1 y1: ";
+                if (!(std::cin >> x1 >> y1)) {
+                    std::cout << "Entree invalide\n";
+                    std::cin.clear();
+                    continue;
+                }
+                std::cout << "Saisir la longueur: ";
+                if (!(std::cin >> len)) {
+                    std::cout << "Entree invalide\n";
+                    std::cin.clear();
+                    continue;
+                }
+                 std::cout << "Saisir la largeur: ";
+                if (!(std::cin >> w)) {
+                    std::cout << "Entree invalide\n";
+                    std::cin.clear();
+                    continue;
+                }
+
+                auto shape = std::make_shared<Rectangle>(x1, y1, len, w);
+                shapes.push_back(shape);         
+                shape->print();
+            }
+             else if (num == "6") {
+                int n;
+                std::cout << "Nombre de points (>=3): ";
+                std::cin >> n;
+
+                std::vector<Point> pts;
+
+                for (int i = 0; i < n; ++i) {
+                    int x, y;
+                    std::cout << "Point " << i+1 << " (x y): ";
+                    std::cin >> x >> y;
+                    pts.emplace_back(x, y);
+                }
+                auto shape = std::make_shared<Polygon>(pts);
+                shapes.push_back(shape);
+                shape->print();
+            }
+        }
         else if (choix == "B" || choix == "b" || choix == "list") {
-            std::cout << "\nListe des formes géométriques :\n";
+            std::cout << "\nListe des formes :\n";
+            for (const auto& s : shapes) {
+                if (s) s->print();
+            }
         }
         else if (choix == "C" || choix == "c" || choix == "delete") {
             std::cout << "Saisir l'ID de la forme à supprimer : ";

@@ -1,6 +1,6 @@
 // Polygon.cpp
-#include "Polygon.h"
-#include "Line.h"
+#include "../header/Polygon.h"
+#include "../header/Line.h"
 
 Polygon::Polygon() : Shape() {}
 
