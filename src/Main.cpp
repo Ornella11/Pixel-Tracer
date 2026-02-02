@@ -13,6 +13,7 @@
 #include "../header/Square.h"
 #include "../header/Rectangle.h"
 #include "../header/Polygon.h"
+#include "../header/Triangle.h"
 
 int main() {
     std::string line;
@@ -208,6 +209,24 @@ int main() {
             } else {
                 std::cout << "Le polygone nécessite au moins 3 points\n";
             }
+        } else if (cmd == "triangle") {
+            int x1, y1, x2, y2, x3, y3;
+            if (ss >> x1 >> y1 >> x2 >> y2 >> x3 >> y3) {
+                auto shape = std::make_shared<Triangle>(x1, y1, x2, y2, x3, y3);
+                if (currentLayerId == -1) {
+                    std::cout << "Aucune couche sélectionnée\n";
+                } else {
+                    for (auto& l : layers) {
+                        if (l.getId() == currentLayerId) {
+                            l.addShape(shape);
+                            shape->print();
+                            break;
+                        }
+                    }
+                }
+            } else {
+                std::cout << "Arguments invalides pour triangle\n";
+            }
         } else if (cmd == "plot") {
             drawZone.erase();
             for (const auto& l : layers) {
@@ -280,6 +299,7 @@ int main() {
                 - square x y length : ajouter un carré dont le coin supérieur gauche est (x, y) et de côté length.
                 - rectangle x y width height : ajouter un rectangle dont le coin supérieur gauche est (x, y), de largeur width et de longueur height
                 - polygon x1 y1 x2 y2 x3 y3 ... ... : ajouter un polygone avec la liste des points donnés
+                - triangle x1 y1 x2 y2 x3 y3 : ajouter un triangle avec les trois points donnés
                 - plot : rafraîchir l’écran pour afficher toutes les formes géométriques des couches visibles
                 - list : afficher la liste des formes de la couche sélectionnée
                 - delete [id] : supprimer une forme de la couche sélectionnée
