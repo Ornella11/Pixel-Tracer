@@ -27,15 +27,34 @@ int main() {
     std::string choix;
     std::string num;
     bool continuer = true;
-    Area drawZone(20, 20);
+
     std::vector<Layer> layers;
     std::list<std::shared_ptr<Shape>> shapes;
 
     while (continuer) {
-        afficherMenu();
+        Area drawZone(100, 50);
+        drawZone.draw();
+        drawZone.print();
+        std::cout << ">> ";
         if (!std::getline(std::cin, choix)) break;
 
-        if (choix == "A" || choix == "a") {
+        if (choix == "list layers") {
+            for (const auto& l : layers) l.print();
+        }
+        else if (choix.rfind("new layer ", 0) == 0) {
+            std::string layerName = choix.substr(10);
+            if (layerName.empty()) {
+                std::cout << "Erreur !\n";
+                continue; 
+            }
+            layers.emplace_back(layerName); 
+            for (const auto& l : layers)
+                l.print();
+        }
+
+
+
+        else if (choix == "A" || choix == "a") {
             std::cout << "\n--- Sous-menu : Ajouter une forme ---\n"
                     << "1- Ajouter un point\n"
                     << "2- Ajouter une ligne\n"
