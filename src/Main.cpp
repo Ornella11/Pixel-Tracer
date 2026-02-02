@@ -30,20 +30,36 @@ int main() {
         std::string cmd;
         ss >> cmd;
 
+        // La commande list layers permet d'afficher la liste des layers, en ajoutant un * devant le layer actif
         if (cmd == "list" && ss.str().find("layers") != std::string::npos) {
-            for (const auto& l : layers) l.print();
+            for (const auto& l : layers) {
+                if (l.getId() == currentLayerId)
+                    std::cout << "* ";
+                l.print();
+            }
+
+            
+        // La commande new layer permet de créer un nouveau calque   
         } else if (cmd == "new" && ss.str().find("layer ") != std::string::npos) {
-            std::string layerName = ss.str().substr(ss.str().find("layer ") + 6);
-            if (layerName.empty()) {
+            std::string layerName = ss.str().substr(ss.str().find("layer ") + 6);  // on récupére le nom du layer
+            if (layerName.empty()) {  // S'il n'y a pas de nom, on déclenche une erreur
                 std::cout << "Erreur : nom de couche vide !\n";
                 continue;
             }
-            layers.emplace_back(layerName);
-            for (const auto& l : layers) l.print();
+            layers.emplace_back(layerName);  // On ajoute le nouveau layer dans la liste des layers
+            currentLayerId = layers.back().getId();
+            for (const auto& l : layers) {  // Affichage de la liste
+                if (l.getId() == currentLayerId)
+                    std::cout << "* ";
+                l.print();
+            }
+        
+
+        // Cette commande permet de sélectionner un layer pour le rendre actif
         } else if (cmd == "select" && ss.str().find("layer ") != std::string::npos) {
             std::string dummy;
             int id;
-            ss >> dummy >> id; // On consomme "layer" pour lire l'ID
+            ss >> dummy >> id; 
             bool found = false;
             for (const auto& l : layers) {
                 if (l.getId() == id) {
@@ -57,6 +73,9 @@ int main() {
             } else {
                 std::cout << "Couche " << id << " introuvable\n";
             }
+
+
+        // Cette commande permet de supprimer un layer à partir de son id
         } else if (cmd == "delete" && ss.str().find("layer ") != std::string::npos) {
             std::string dummy;
             int id;
@@ -65,6 +84,9 @@ int main() {
                 [id](const Layer& l) { return l.getId() == id; }), layers.end());
             if (currentLayerId == id) currentLayerId = -1;
             std::cout << "Couche " << id << " supprimée\n";
+
+
+        // Cette commande permet de rendre un layer visible
         } else if (cmd == "set" && ss.str().find("layer visible ") != std::string::npos) {
             std::string d1, d2;
             int id;
@@ -81,6 +103,9 @@ int main() {
             if (!found) {
                 std::cout << "Couche " << id << " introuvable\n";
             }
+
+
+        // Cette commande permet de rendre un layer invisible
         } else if (cmd == "set" && ss.str().find("layer invisible ") != std::string::npos) {
             std::string d1, d2;
             int id;
@@ -97,96 +122,130 @@ int main() {
             if (!found) {
                 std::cout << "Couche " << id << " introuvable\n";
             }
+
+
+
+        // Cette commande permet de créer un point et de l'afficher sur le layer sélectionné 
         } else if (cmd == "point") {
             int x, y;
             if (ss >> x >> y) {
-                auto shape = std::make_shared<Point>(x, y);
-                if (currentLayerId == -1) {
+                auto shape = std::make_shared<Point>(x, y); 
+                if (currentLayerId == -1) {  // On vérifie si un layer a bien été sélectionné
                     std::cout << "Aucune couche sélectionnée\n";
                 } else {
-                    for (auto& l : layers) {
+                    for (auto& l : layers) {  // On crée la figure
                         if (l.getId() == currentLayerId) {
                             l.addShape(shape);
+                            drawZone.addShape(shape);
                             shape->print();
                             break;
                         }
                     }
                 }
+                drawZone.draw();  // On l'affiche sur le calque
+                drawZone.print();
             } else {
                 std::cout << "Arguments invalides pour point\n";
             }
+
+
+        // Cette commande permet de créer une ligne et de l'afficher sur le layer sélectionné 
         } else if (cmd == "line") {
             int x1, y1, x2, y2;
             if (ss >> x1 >> y1 >> x2 >> y2) {
-                auto shape = std::make_shared<Line>(x1, y1, x2, y2);
-                if (currentLayerId == -1) {
-                    std::cout << "Aucune couche sélectionnée\n";
+                auto shape = std::make_shared<Line>(x1, y1, x2, y2); 
+                if (currentLayerId == -1) {   // On vérifie si un layer a bien été sélectionné
+                    std::cout << "Aucune couche sélectionnée\n";  
                 } else {
                     for (auto& l : layers) {
                         if (l.getId() == currentLayerId) {
                             l.addShape(shape);
+                            drawZone.addShape(shape);
                             shape->print();
                             break;
                         }
                     }
                 }
+            drawZone.draw();     // On l'affiche sur le calque
+            drawZone.print();
             } else {
                 std::cout << "Arguments invalides pour line\n";
             }
+
+
+        // Cette commande permet de créer un cercle et de l'afficher sur le layer sélectionné 
         } else if (cmd == "circle") {
             int x, y, r;
             if (ss >> x >> y >> r) {
                 auto shape = std::make_shared<Circle>(x, y, r);
-                if (currentLayerId == -1) {
+                if (currentLayerId == -1) {     // On vérifie si un layer a bien été sélectionné
                     std::cout << "Aucune couche sélectionnée\n";
                 } else {
                     for (auto& l : layers) {
                         if (l.getId() == currentLayerId) {
                             l.addShape(shape);
+                            drawZone.addShape(shape);
                             shape->print();
                             break;
                         }
                     }
                 }
+            drawZone.draw();    // On l'affiche sur le calque
+            drawZone.print();
             } else {
                 std::cout << "Arguments invalides pour circle\n";
             }
+
+
+        // Cette commande permet de créer un carré et de l'afficher sur le layer sélectionné 
         } else if (cmd == "square") {
             int x, y, len;
             if (ss >> x >> y >> len) {
                 auto shape = std::make_shared<Square>(x, y, len);
                 if (currentLayerId == -1) {
-                    std::cout << "Aucune couche sélectionnée\n";
+                    std::cout << "Aucune couche sélectionnée\n";    // On vérifie si un layer a bien été sélectionné
                 } else {
                     for (auto& l : layers) {
                         if (l.getId() == currentLayerId) {
                             l.addShape(shape);
+                            drawZone.addShape(shape);
                             shape->print();
                             break;
                         }
                     }
                 }
+            drawZone.draw();    // On l'affiche sur le calque
+            drawZone.print();
             } else {
                 std::cout << "Arguments invalides pour square\n";
             }
+
+
+        // Cette commande permet de créer un rectangle et de l'afficher sur le layer sélectionné 
         } else if (cmd == "rectangle") {
             int x, y, w, h;
             if (ss >> x >> y >> w >> h) {
                 auto shape = std::make_shared<Rectangle>(x, y, w, h);
                 if (currentLayerId == -1) {
-                    std::cout << "Aucune couche sélectionnée\n";
+                    std::cout << "Aucune couche sélectionnée\n";    // On vérifie si un layer a bien été sélectionné
                 } else {
                     for (auto& l : layers) {
                         if (l.getId() == currentLayerId) {
                             l.addShape(shape);
+                            drawZone.addShape(shape);
                             shape->print();
                             break;
                         }
                     }
                 }
+            drawZone.draw();    // On l'affiche sur le calque
+            drawZone.print();
             } else {
                 std::cout << "Arguments invalides pour rectangle\n";
             }
+        
+
+        // Cette commande permet de créer un polygone et de l'afficher sur le layer sélectionné 
         } else if (cmd == "polygon") {
             std::vector<Point> pts;
             int x, y;
@@ -196,19 +255,25 @@ int main() {
             if (pts.size() >= 3) {
                 auto shape = std::make_shared<Polygon>(pts);
                 if (currentLayerId == -1) {
-                    std::cout << "Aucune couche sélectionnée\n";
+                    std::cout << "Aucune couche sélectionnée\n";    // On vérifie si un layer a bien été sélectionné
                 } else {
                     for (auto& l : layers) {
                         if (l.getId() == currentLayerId) {
                             l.addShape(shape);
+                            drawZone.addShape(shape);
                             shape->print();
                             break;
                         }
                     }
                 }
+            drawZone.draw();    // On l'affiche sur le calque
+            drawZone.print();
             } else {
                 std::cout << "Le polygone nécessite au moins 3 points\n";
             }
+        
+
+        // Cette commande permet de créer un triangle et de l'afficher sur le layer sélectionné 
         } else if (cmd == "triangle") {
             int x1, y1, x2, y2, x3, y3;
             if (ss >> x1 >> y1 >> x2 >> y2 >> x3 >> y3) {
@@ -219,14 +284,20 @@ int main() {
                     for (auto& l : layers) {
                         if (l.getId() == currentLayerId) {
                             l.addShape(shape);
+                            drawZone.addShape(shape);
                             shape->print();
                             break;
                         }
                     }
                 }
+            drawZone.draw();    // On l'affiche sur le calque
+            drawZone.print();
             } else {
                 std::cout << "Arguments invalides pour triangle\n";
             }
+
+
+        // Cette commande permet d'afficher toutes les formes créées des couches visibles
         } else if (cmd == "plot") {
             drawZone.erase();
             for (const auto& l : layers) {
@@ -238,6 +309,9 @@ int main() {
             }
             drawZone.draw();
             drawZone.print();
+
+
+        // Cette commande permet d'afficher toutes les formes créées
         } else if (cmd == "list") {
             if (currentLayerId == -1) {
                 std::cout << "Aucune couche sélectionnée\n";
@@ -252,6 +326,9 @@ int main() {
                     }
                 }
             }
+
+
+        // Cette commande permet de supprimer une forme
         } else if (cmd == "delete") {
             int id;
             if (ss >> id) {
@@ -269,6 +346,9 @@ int main() {
             } else {
                 std::cout << "ID invalide pour delete\n";
             }
+
+
+        // Cette commande permet de supprimer toutes les formes de la couche sélectionnée
         } else if (cmd == "erase") {
             if (currentLayerId == -1) {
                 std::cout << "Aucune couche sélectionnée\n";
@@ -281,9 +361,15 @@ int main() {
                     }
                 }
             }
+
+
+        // Effacer l'écran
         } else if (cmd == "clear") {
             drawZone.clear();
             std::cout << "Écran effacé\n";
+
+
+        // Afficher la liste des commandes
         } else if (cmd == "help") {
             std::cout << R"(
                 Commandes :
